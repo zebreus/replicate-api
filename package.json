@@ -47,7 +47,11 @@
     "dist/**"
   ],
   "keywords": [
-    "library"
+    "library",
+    "replicate",
+    "api",
+    "stable-diffusion",
+    "ai"
   ],
   "main": "dist/index.js",
   "engines": {
