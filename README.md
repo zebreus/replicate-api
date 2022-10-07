@@ -105,6 +105,5 @@ console.log(prediction.outputs[0])
 ## Older node versions
 
 This package uses the `fetch` API which is only supported in Node.js 18 and up. If you need to use an older version of
-node, you can probably use node-fetch but I have not tested it. The Options object supports passing a custom fetch
-function, you can probably just pass `node-fetch` there. If you polyfill the fetch function globally it should also
-work.
+node, you can probably use node-fetch but I have not tested it. It should be enough to just have node-fetch installed.
+The Options object supports passing a custom fetch function, you can also try to pass `node-fetch` there.

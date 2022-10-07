@@ -1,17 +1,35 @@
 export type Options = {
-  fetch?: typeof fetch
+  fetch?: (
+    url: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config: Record<string, any>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) => Promise<{ json: () => Promise<any>; ok: boolean; status: number }>
   token: string
   apiUrl?: string
 }
 
+const defaultFetch =
+  typeof fetch !== "undefined"
+    ? fetch
+    : typeof self === "undefined"
+    ? // @ts-expect-error: node-fetch is not a dependency
+      // eslint-disable-next-line import/no-unresolved
+      await import("node-fetch").then(module => module.default).catch(() => undefined)
+    : undefined
+
 export async function makeApiRequest<ExpectedResponse = unknown>(
-  { fetch: fetchFunction = fetch, token, apiUrl = "https://api.replicate.com/v1/" }: Options,
+  { fetch: fetchFunction = defaultFetch, token, apiUrl = "https://api.replicate.com/v1/" }: Options,
   method: "POST" | "GET",
   endpoint: string,
   content?: object
 ) {
   const url = `${apiUrl}${endpoint}`
   const body = method === "POST" && content ? JSON.stringify(content) : null
+
+  if (!fetchFunction) {
+    throw new Error("fetch is not available. Use node >= 18 or install node-fetch")
+  }
 
   const response = await fetchFunction(url, {
     method,
