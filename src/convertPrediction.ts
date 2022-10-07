@@ -1,3 +1,4 @@
+import { cancelPrediction } from "cancelPrediction"
 import { getPrediction } from "getPrediction"
 import { Options } from "makeApiRequest"
 
@@ -29,7 +30,7 @@ export const convertPrediction = (options: Options, prediction: PredictionRespon
     id: prediction.id,
     version: prediction.version,
     get: async () => await getPrediction({ ...options, id: prediction.id }),
-    cancel: null, //TODO insert function
+    cancel: async () => await cancelPrediction({ ...options, id: prediction.id }),
     created_at: prediction.created_at ? new Date(prediction.created_at) : null,
     started_at: prediction.started_at ? new Date(prediction.started_at) : null,
     completed_at: prediction.completed_at ? new Date(prediction.completed_at) : null,

@@ -1,4 +1,3 @@
-import { PredictionResponse } from "convertPrediction"
 import { makeApiRequest, Options } from "makeApiRequest"
 
 type CancelPredictionOptions = {
@@ -6,6 +5,9 @@ type CancelPredictionOptions = {
   id: string
 } & Options
 
+/** Cancel a running prediction.
+ * @returns `void` if the prediction was canceled, or the prediction if it was already completed.
+ */
 export const cancelPrediction = async (options: CancelPredictionOptions) => {
-  await makeApiRequest<PredictionResponse>(options, "POST", `predictions/${options.id}/cancel`)
+  await makeApiRequest(options, "POST", `predictions/${options.id}/cancel`)
 }
