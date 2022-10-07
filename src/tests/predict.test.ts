@@ -46,6 +46,18 @@ test("Polling with the poll function works", async () => {
   expect(pollR.status).toBe("succeeded")
 }, 20000)
 
+test("Polling with the poll option", async () => {
+  const prediction = await predict({
+    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
+    token,
+    input: {
+      prompt: "The quick brown fox jumps over the lazy dog",
+    },
+    poll: true,
+  })
+  expect(prediction.status).toBe("succeeded")
+}, 20000)
+
 test("Call predict with a model id instead of a version", async () => {
   const prediction = predict({
     model: "stability-ai/stable-diffusion",

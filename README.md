@@ -2,6 +2,20 @@
 
 A typed client library for the [replicate.com](https://replicate.com/) API.
 
+You can use this to access the prediction API in a type-safe and convenient way.
+
+## Install
+
+Just install it with your favourite package manager:
+
+```bash
+yarn add replicate-api
+pnpm add replicate-api
+npm install replicate-api
+```
+
+The package should work in the browser and in Node.js [versions 18 and up \*](#older-node-versions).
+
 ## Obtain a API token
 
 You need an API token for nearly all operations. You can find the token in your
@@ -11,21 +25,24 @@ You need an API token for nearly all operations. You can find the token in your
 
 ### Generate an image with stable-diffusion
 
+You can create a new prediction using the
+[`stability-ai/stable-diffusion`](https://replicate.com/stability-ai/stable-diffusion) model and wait for the result
+with:
+
 ```typescript
-const { id } = await predict({
-  model: "stability-ai/stable-diffusion",
-  input: { prompt: "multicolor hyperspace" },
+const prediction = await predict({
+  model: "stability-ai/stable-diffusion", // The model name
+  input: { prompt: "multicolor hyperspace" }, // The model specific input
   token: "...", // You need a token from replicate.com
+  poll: true, // Wait for the model to finish
 })
 
-const { outputs } = await pollPrediction({ id, token: "..." })
-
-console.log(outputs[0])
+console.log(prediction.outputs[0])
 // https://replicate.com/api/models/stability-ai/stable-diffusion/files/58a1dcfc-3d5d-4297-bac2-5395294fe463/out-0.png
 ```
 
-This creates a new prediction using the
-[`stability-ai/stable-diffusion`](https://replicate.com/stability-ai/stable-diffusion) model and waits for the result
+This does some things for you like resolving the model name to a model version and polling until the prediction is
+completed.
 
 ### Create a new prediction
 
@@ -57,9 +74,37 @@ await cancelPrediction({ id, token: "..." })
 await getModel({ id, token: "..." })
 ```
 
-You can use `getModel` to get metadata about a model, like the url or the github repo. It also gives you the latest
-version, which you can use with `predict`.
+### Generate an image with stable-diffusion
+
+The first example used a few convenience functions to make it easier to use the API. You can also use the lower level
+functions that map the API calls more directly.
+
+```typescript
+const model = await getModel({ id, token: "..." })
+
+let prediction = await predict({
+  version: model.version,
+  input: { prompt: "multicolor hyperspace" },
+  token: "...",
+})
+
+// pollPrediction does this a bit smarter, with increasing backoff
+while (prediction.status === "starting" || prediction.status === "processing") {
+  await new Promise(resolve => setTimeout(resolve, 1000))
+  prediction = await getPrediction({ id: prediction.id, token: "..." })
+}
+
+console.log(prediction.outputs[0])
+// https://replicate.com/api/models/stability-ai/stable-diffusion/files/58a1dcfc-3d5d-4297-bac2-5395294fe463/out-0.png
+```
 
 ## Related projects
 
 - [replicate-js](https://github.com/nicholascelestin/replicate-js) - A js object oriented client for replicate
+
+## Older node versions
+
+This package uses the `fetch` API which is only supported in Node.js 18 and up. If you need to use an older version of
+node, you can probably use node-fetch but I have not tested it. The Options object supports passing a custom fetch
+function, you can probably just pass `node-fetch` there. If you polyfill the fetch function globally it should also
+work.

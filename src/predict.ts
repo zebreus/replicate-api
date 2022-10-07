@@ -17,6 +17,8 @@ type PredictOptions = {
   input: Record<string, unknown>
   /** A webhook that is called when the prediction has completed. */
   webhook?: string
+  /** Set to true to poll until the prediction is completed */
+  poll?: boolean
 } & ModelIdentifier &
   Options
 
@@ -28,5 +30,6 @@ export const predict = async (options: PredictOptions) => {
     webhook: options.webhook,
   })
 
-  return convertPrediction(options, response)
+  const prediction = convertPrediction(options, response)
+  return options.poll ? await prediction.poll() : prediction
 }
