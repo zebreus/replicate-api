@@ -1,6 +1,6 @@
 {
   "name": "replicate-api",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A typed client library for the replicate.com API",
   "author": {
     "name": "Zebreus",
@@ -37,7 +37,7 @@
   "scripts": {
     "lint": "tsc --noEmit && prettier . --check && eslint --cache --ignore-path .gitignore --ext ts,js,tsx,jsx .",
     "build": "rm -rf dist && tsc -p tsconfig.build.json && resolve-tspaths -p tsconfig.build.json",
-    "prepack": "pinst --disable",
+    "prepack": "rm -rf dist && tsc -p tsconfig.build.json && resolve-tspaths -p tsconfig.build.json && pinst --disable",
     "format": "prettier --write .",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "postinstall": "husky install",
