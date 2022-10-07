@@ -1,0 +1,15 @@
+{
+  "name": "replicate-api",
+  "version": "0.0.0",
+  "description": "A typed client library for the replicate.com API",
+  "author": {
+    "name": "Zebreus",
+    "email": "lennarteichhorn@googlemail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zebreus/replicate-api"
+  },
+  "license": "MIT",
+  "type": "module"
+}
