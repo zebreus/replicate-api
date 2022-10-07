@@ -1,5 +1,5 @@
-import { extractModelAndOwner } from "extractModelAndOwner"
-import { makeApiRequest, Options } from "makeApiRequest"
+import { extractModelAndOwner } from "helpers/extractModelAndOwner"
+import { makeApiRequest, Options } from "helpers/makeApiRequest"
 import { ModelVersionResponse } from "resolveModel"
 
 type ResolveModelVersionsOptions = {

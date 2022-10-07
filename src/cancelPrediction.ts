@@ -1,4 +1,4 @@
-import { makeApiRequest, Options } from "makeApiRequest"
+import { makeApiRequest, Options } from "helpers/makeApiRequest"
 
 type CancelPredictionOptions = {
   /** The id of a prediction */

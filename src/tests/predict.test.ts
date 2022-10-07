@@ -1,6 +1,7 @@
 import { cancelPrediction } from "cancelPrediction"
 import { log } from "console"
 import { getPrediction } from "getPrediction"
+import { pollResult } from "pollResult"
 import { predict } from "predict"
 import { resolveModel } from "resolveModel"
 import { resolveModelVersions } from "resolveModelVersions"
@@ -18,6 +19,32 @@ test("Call predict", async () => {
   const result = await prediction
   result
 })
+
+test("Polling a prediction works", async () => {
+  const prediction = await predict({
+    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
+    token,
+    input: {
+      prompt: "The quick brown fox jumps over the lazy dog",
+    },
+  })
+  expect(prediction.status).not.toBe("succeeded")
+  const pollResult = await prediction.poll()
+  expect(pollResult.status).toBe("succeeded")
+}, 20000)
+
+test("Polling with the poll function works", async () => {
+  const prediction = await predict({
+    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
+    token,
+    input: {
+      prompt: "The quick brown fox jumps over the lazy dog",
+    },
+  })
+  expect(prediction.status).not.toBe("succeeded")
+  const pollR = await pollResult({ token, id: prediction.id })
+  expect(pollR.status).toBe("succeeded")
+}, 20000)
 
 test("Call predict with a model id instead of a version", async () => {
   const prediction = predict({

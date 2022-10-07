@@ -1,5 +1,5 @@
-import { convertPrediction, PredictionResponse } from "convertPrediction"
-import { makeApiRequest, Options } from "makeApiRequest"
+import { convertPrediction, PredictionResponse } from "helpers/convertPrediction"
+import { makeApiRequest, Options } from "helpers/makeApiRequest"
 
 type GetPredictionOptions = {
   /** The id of a prediction */
