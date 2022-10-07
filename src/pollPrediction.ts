@@ -2,7 +2,7 @@ import { getPrediction } from "getPrediction"
 import { PredictionStatusObject } from "helpers/convertPrediction"
 import { Options } from "helpers/makeApiRequest"
 
-type PollResultOptions = {
+type PollPredictionOptions = {
   /** The id of a prediction */
   id: string
   /** Timeout in milliseconds
@@ -12,7 +12,7 @@ type PollResultOptions = {
 } & Options
 
 /** Poll until the prediction has completed */
-export const pollResult = async (options: PollResultOptions, initialResult?: PredictionStatusObject) => {
+export const pollPrediction = async (options: PollPredictionOptions, initialResult?: PredictionStatusObject) => {
   let newPrediction = initialResult || (await getPrediction({ ...options, id: options.id }))
 
   const endAt = Date.now() + (options.timeout ?? 3600000)

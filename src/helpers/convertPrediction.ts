@@ -1,7 +1,7 @@
 import { cancelPrediction } from "cancelPrediction"
 import { getPrediction } from "getPrediction"
 import { Options } from "helpers/makeApiRequest"
-import { pollResult } from "pollResult"
+import { pollPrediction } from "pollPrediction"
 
 export type PredictionStatus = "starting" | "processing" | "succeeded" | "failed" | "canceled"
 
@@ -54,7 +54,7 @@ export const convertPrediction = (options: Options, prediction: PredictionRespon
     version: prediction.version,
     get: async () => await getPrediction({ ...options, id: prediction.id }),
     cancel: async () => await cancelPrediction({ ...options, id: prediction.id }),
-    poll: async () => await pollResult({ ...options, id: prediction.id }, predictionStatus),
+    poll: async () => await pollPrediction({ ...options, id: prediction.id }, predictionStatus),
     created_at: prediction.created_at ? new Date(prediction.created_at) : undefined,
     started_at: prediction.started_at ? new Date(prediction.started_at) : undefined,
     completed_at: prediction.completed_at ? new Date(prediction.completed_at) : undefined,

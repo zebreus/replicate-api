@@ -3,7 +3,7 @@ import { log } from "console"
 import { getModel } from "getModel"
 import { getPrediction } from "getPrediction"
 import { getVersions } from "getVersions"
-import { pollResult } from "pollResult"
+import { pollPrediction } from "pollPrediction"
 import { predict } from "predict"
 import { token } from "tests/token"
 
@@ -42,7 +42,7 @@ test("Polling with the poll function works", async () => {
     },
   })
   expect(prediction.status).not.toBe("succeeded")
-  const pollR = await pollResult({ token, id: prediction.id })
+  const pollR = await pollPrediction({ token, id: prediction.id })
   expect(pollR.status).toBe("succeeded")
 }, 20000)
 
