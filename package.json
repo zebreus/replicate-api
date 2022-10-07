@@ -42,5 +42,12 @@
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "postinstall": "husky install",
     "postpack": "pinst --enable"
-  }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "keywords": [
+    "library"
+  ],
+  "main": "dist/index.js"
 }

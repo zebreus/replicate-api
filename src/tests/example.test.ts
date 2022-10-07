@@ -1,18 +1,9 @@
-describe("some examples work", () => {
-  test("one is one", async () => {
-    expect(1).toEqual(1)
-  })
+import { add, subtract } from "../index"
 
-  test("two is two", async () => {
-    expect(2).toEqual(2)
-  })
-
-  test("throw throws", async () => {
-    expect(() => {
-      throw new Error("eyyy")
-    }).toThrow()
-  })
+it("adds two numbers", () => {
+  expect(add(1, 2)).toBe(3)
 })
 
-// eslint-disable-next-line jest/no-export
-export {}
+it("subtracts two numbers", () => {
+  expect(subtract(1, 2)).toBe(-1)
+})
