@@ -1,6 +1,6 @@
 {
   "name": "replicate-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A typed client library for the replicate.com API",
   "author": {
     "name": "Zebreus",
