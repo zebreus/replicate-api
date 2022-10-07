@@ -1,10 +1,10 @@
 import { cancelPrediction } from "cancelPrediction"
 import { log } from "console"
+import { getModel } from "getModel"
 import { getPrediction } from "getPrediction"
+import { getVersions } from "getVersions"
 import { pollResult } from "pollResult"
 import { predict } from "predict"
-import { resolveModel } from "resolveModel"
-import { resolveModelVersions } from "resolveModelVersions"
 import { token } from "tests/token"
 
 test("Call predict", async () => {
@@ -95,7 +95,7 @@ test("Fails with invalid token", async () => {
 })
 
 test("Resolving a model works", async () => {
-  const prediction = await resolveModel({
+  const prediction = await getModel({
     model: "stability-ai/stable-diffusion",
     token,
   })
@@ -103,7 +103,7 @@ test("Resolving a model works", async () => {
 })
 
 test("Resolving model versions works", async () => {
-  const prediction = await resolveModelVersions({
+  const prediction = await getVersions({
     model: "stability-ai/stable-diffusion",
     token,
   })

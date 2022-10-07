@@ -1,6 +1,6 @@
+import { ModelVersionResponse } from "getModel"
 import { extractModelAndOwner } from "helpers/extractModelAndOwner"
 import { makeApiRequest, Options } from "helpers/makeApiRequest"
-import { ModelVersionResponse } from "resolveModel"
 
 type ResolveModelVersionsOptions = {
   model: string
@@ -12,7 +12,7 @@ type ModelVersionsResponse = {
   results: Array<ModelVersionResponse>
 }
 
-export const resolveModelVersions = async (options: ResolveModelVersionsOptions) => {
+export const getVersions = async (options: ResolveModelVersionsOptions) => {
   const { owner, model } = extractModelAndOwner(options.model)
   const response = await makeApiRequest<ModelVersionsResponse>(options, "GET", `models/${owner}/${model}/versions`)
 

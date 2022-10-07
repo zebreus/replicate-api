@@ -1,6 +1,6 @@
+import { getModel } from "getModel"
 import { convertPrediction, PredictionResponse } from "helpers/convertPrediction"
 import { makeApiRequest, Options } from "helpers/makeApiRequest"
-import { resolveModel } from "resolveModel"
 
 type ModelIdentifier =
   | {
@@ -21,7 +21,7 @@ type PredictOptions = {
   Options
 
 export const predict = async (options: PredictOptions) => {
-  const version = "version" in options ? options.version : (await resolveModel(options)).version
+  const version = "version" in options ? options.version : (await getModel(options)).version
   const response = await makeApiRequest<PredictionResponse>(options, "POST", "predictions", {
     version: version,
     input: options.input,

@@ -24,7 +24,7 @@ type ModelResponse = {
   latest_version: ModelVersionResponse
 }
 
-export const resolveModel = async (options: ResolveModelOptions) => {
+export const getModel = async (options: ResolveModelOptions) => {
   const { owner, model } = extractModelAndOwner(options.model)
   const response = await makeApiRequest<ModelResponse>(options, "GET", `models/${owner}/${model}`)
 
