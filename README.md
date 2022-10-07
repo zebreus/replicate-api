@@ -7,7 +7,19 @@ A typed client library for the replicate.com API.
 ### Create a new prediction
 
 ```typescript
-predict({ version: "", input: { prompt: "..." }, apiKey: "..." })
+const { id } = await predict({ version: "", input: { prompt: "..." }, apiKey: "..." })
+```
+
+### Retrieve the result of a prediction
+
+```typescript
+const result = await getPrediction({ id, apiKey: "..." })
+```
+
+### Cancel a running prediction
+
+```typescript
+await getPrediction({ id, apiKey: "..." })
 ```
 
 ## Related projects

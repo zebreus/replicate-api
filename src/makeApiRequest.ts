@@ -1,11 +1,11 @@
 export type Options = {
   fetch?: typeof fetch
-  apiKey: string
+  token: string
   apiUrl?: string
 }
 
 export async function makeApiRequest<ExpectedResponse = unknown>(
-  { fetch: fetchFunction = fetch, apiKey, apiUrl = "https://api.replicate.com/v1/" }: Options,
+  { fetch: fetchFunction = fetch, token, apiUrl = "https://api.replicate.com/v1/" }: Options,
   method: "POST" | "GET",
   endpoint: string,
   content?: object
@@ -17,7 +17,7 @@ export async function makeApiRequest<ExpectedResponse = unknown>(
     method,
     body,
     headers: {
-      "Authorization": `Token ${apiKey}`,
+      "Authorization": `Token ${token}`,
       "Content-Type": "application/json",
     },
   })
