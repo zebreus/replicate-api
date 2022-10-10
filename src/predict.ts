@@ -27,7 +27,7 @@ export const predict = async (options: PredictOptions) => {
   const response = await makeApiRequest<PredictionResponse>(options, "POST", "predictions", {
     version: version,
     input: options.input,
-    webhook: options.webhook,
+    webhook_completed: options.webhook,
   })
 
   const prediction = convertPrediction(options, response)
