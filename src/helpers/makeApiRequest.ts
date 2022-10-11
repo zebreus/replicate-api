@@ -9,13 +9,17 @@ export type Options = {
   apiUrl?: string
 }
 
-const defaultFetch =
+let defaultFetch =
   typeof fetch !== "undefined"
     ? fetch
     : typeof self === "undefined"
     ? // @ts-expect-error: node-fetch is not a dependency
       // eslint-disable-next-line import/no-unresolved
-      await import("node-fetch").then(module => module.default).catch(() => undefined)
+      import("node-fetch")
+        .then(module => {
+          defaultFetch = module.default
+        })
+        .catch(() => undefined) && undefined
     : undefined
 
 export async function makeApiRequest<ExpectedResponse = unknown>(
