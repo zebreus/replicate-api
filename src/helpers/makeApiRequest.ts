@@ -9,13 +9,16 @@ export type Options = {
   apiUrl?: string
 }
 
+// webpackIgnore: true
+const nodeFetch = "node-fetch"
+
 let defaultFetch =
   typeof fetch !== "undefined"
     ? fetch
     : typeof self === "undefined"
     ? // @ts-expect-error: node-fetch is not a dependency
       // eslint-disable-next-line import/no-unresolved
-      import("node-fetch")
+      import(/* webpackIgnore: true */ nodeFetch)
         .then(module => {
           defaultFetch = module.default
         })
