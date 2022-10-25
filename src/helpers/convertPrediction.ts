@@ -17,7 +17,7 @@ export type PredictionResponse = {
   completed_at: string | null
   status: PredictionStatus
   input: Record<string, unknown>
-  output: Array<string>
+  output: unknown
   error: null
   logs: null | string
   metrics: {
@@ -40,7 +40,7 @@ export type PredictionStatusObject = {
   completed_at?: Date
   status: PredictionStatus
   input: Record<string, unknown>
-  output: Array<unknown>
+  output: unknown
   error: null
   logs?: string
   metrics: {
