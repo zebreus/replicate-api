@@ -107,3 +107,9 @@ console.log(prediction.outputs[0])
 This package uses the `fetch` API which is only supported in Node.js 18 and up. If you need to use an older version of
 node, you can probably use node-fetch but I have not tested it. It should be enough to just have node-fetch installed.
 The Options object supports passing a custom fetch function, you can also try to pass `node-fetch` there.
+
+## Building and testing this package
+
+To run the tests for this package you need an API token from <replicate.com>. Then you create a `src/tests/token.ts`
+file that exports the token as a string like: `export const token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" `. Now
+you can run `yarn test` to run the tests.
