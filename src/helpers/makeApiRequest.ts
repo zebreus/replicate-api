@@ -1,10 +1,12 @@
+export type FetchFunction = (
+  url: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config: Record<string, any>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+) => Promise<{ json: () => Promise<any>; ok: boolean; status: number }>
+
 export type Options = {
-  fetch?: (
-    url: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: Record<string, any>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ) => Promise<{ json: () => Promise<any>; ok: boolean; status: number }>
+  fetch?: FetchFunction | Promise<FetchFunction | undefined>
   token: string
   apiUrl?: string
 }
@@ -12,27 +14,23 @@ export type Options = {
 // webpackIgnore: true
 const nodeFetch = "node-fetch"
 
-let defaultFetch =
+const defaultFetch: FetchFunction | undefined | Promise<FetchFunction | undefined> =
   typeof fetch !== "undefined"
     ? fetch
     : typeof self === "undefined"
-    ? // @ts-expect-error: node-fetch is not a dependency
-      // eslint-disable-next-line import/no-unresolved
-      import(/* webpackIgnore: true */ nodeFetch)
-        .then(module => {
-          defaultFetch = module.default
-        })
-        .catch(() => undefined) && undefined
+    ? // eslint-disable-next-line import/no-unresolved
+      import(/* webpackIgnore: true */ nodeFetch).then(module => module.default).catch(() => undefined)
     : undefined
 
 export async function makeApiRequest<ExpectedResponse = unknown>(
-  { fetch: fetchFunction = defaultFetch, token, apiUrl = "https://api.replicate.com/v1/" }: Options,
+  { fetch: fetchFunctionOrPromise = defaultFetch, token, apiUrl = "https://api.replicate.com/v1/" }: Options,
   method: "POST" | "GET",
   endpoint: string,
   content?: object
 ) {
   const url = `${apiUrl}${endpoint}`
   const body = method === "POST" && content ? JSON.stringify(content) : null
+  const fetchFunction = await fetchFunctionOrPromise
 
   if (!fetchFunction) {
     throw new Error("fetch is not available. Use node >= 18 or install node-fetch")
