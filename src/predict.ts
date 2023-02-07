@@ -2,7 +2,7 @@ import { getModel } from "getModel"
 import { convertPrediction, PredictionResponse } from "helpers/convertPrediction"
 import { makeApiRequest, Options } from "helpers/makeApiRequest"
 
-type ModelIdentifier =
+export type ModelIdentifier =
   | {
       /** The ID of the model version that you want to run. */
       version: string
@@ -12,7 +12,7 @@ type ModelIdentifier =
       model: string
     }
 
-type PredictOptions = {
+export type PredictOptions = {
   /** The model's input as a JSON object. This differs for each model */
   input: Record<string, unknown>
   /** A webhook that is called when the prediction has completed. */

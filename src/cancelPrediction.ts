@@ -1,6 +1,6 @@
 import { makeApiRequest, Options } from "helpers/makeApiRequest"
 
-type CancelPredictionOptions = {
+export type CancelPredictionOptions = {
   /** The id of a prediction */
   id: string
 } & Options

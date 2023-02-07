@@ -1,7 +1,7 @@
 import { extractModelAndOwner } from "helpers/extractModelAndOwner"
 import { makeApiRequest, Options } from "helpers/makeApiRequest"
 
-type ResolveModelOptions = {
+export type ResolveModelOptions = {
   model: string
 } & Options
 

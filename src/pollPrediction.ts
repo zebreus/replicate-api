@@ -2,7 +2,7 @@ import { getPrediction } from "getPrediction"
 import { PredictionStatusObject } from "helpers/convertPrediction"
 import { Options } from "helpers/makeApiRequest"
 
-type PollPredictionOptions = {
+export type PollPredictionOptions = {
   /** The id of a prediction */
   id: string
   /** Timeout in milliseconds

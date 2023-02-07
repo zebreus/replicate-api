@@ -2,7 +2,7 @@ import { ModelVersionResponse } from "getModel"
 import { extractModelAndOwner } from "helpers/extractModelAndOwner"
 import { makeApiRequest, Options } from "helpers/makeApiRequest"
 
-type ResolveModelVersionsOptions = {
+export type ResolveModelVersionsOptions = {
   model: string
 } & Options
 
