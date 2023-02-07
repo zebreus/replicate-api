@@ -90,7 +90,7 @@ const currentPrediction = result.cancel()
 const currentPrediction = await cancelPrediction({ id, token: "..." })
 ```
 
-Cancelling the prediction also returns the state of the prediction after cancelling.
+Canceling the prediction also returns the state of the prediction after canceling.
 
 ### Get information about a model
 

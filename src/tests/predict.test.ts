@@ -81,13 +81,25 @@ test("Can retrieve an existing prediction predict", async () => {
   log(prediction)
 })
 
-test("Can cancel a existing prediction", async () => {
-  const prediction = cancelPrediction({
+test("Canceling a existing prediction works", async () => {
+  const prediction = await cancelPrediction({
     id: "uhi3fggr6fgzbnjl5ccbzp3tme",
     token,
   })
-  await expect(prediction).resolves.toBeUndefined()
+  await expect(["succeeded", "canceled", "failed"].includes(prediction.status)).toBeTruthy()
 })
+
+test("Canceling a running prediction works", async () => {
+  const prediction = await predict({
+    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
+    token,
+    input: {
+      prompt: "The quick brown fox jumps over the lazy dog",
+    },
+  })
+  const canceledPrediction = await cancelPrediction({ id: prediction.id, token })
+  expect(canceledPrediction.status).toBe("canceled")
+}, 20000)
 
 test("Fails to cancel a nonexistent prediction", async () => {
   const prediction = cancelPrediction({
