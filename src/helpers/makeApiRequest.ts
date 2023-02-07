@@ -1,3 +1,4 @@
+/** Interface of a fetch function. Compatible with the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) */
 export type FetchFunction = (
   url: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -5,9 +6,13 @@ export type FetchFunction = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) => Promise<{ json: () => Promise<any>; ok: boolean; status: number }>
 
+/** Basic options for every request */
 export type ReplicateRequestOptions = {
-  fetch?: FetchFunction | Promise<FetchFunction | undefined>
+  /** Use a custom fetch function. Defaults to the native fetch or `node-fetch` */
+  fetch?: FetchFunction
+  /** You need an https://replicate.com API token for nearly all operations. You can generate the token in your [account settings](https://replicate.com/account). */
   token: string
+  /** The actual API endpoint. Defaults to "https://api.replicate.com/v1/" */
   apiUrl?: string
 }
 
@@ -23,17 +28,14 @@ const defaultFetch: FetchFunction | undefined | Promise<FetchFunction | undefine
     : undefined
 
 export async function makeApiRequest<ExpectedResponse = unknown>(
-  {
-    fetch: fetchFunctionOrPromise = defaultFetch,
-    token,
-    apiUrl = "https://api.replicate.com/v1/",
-  }: ReplicateRequestOptions,
+  { fetch: passedFetchFunction, token, apiUrl = "https://api.replicate.com/v1/" }: ReplicateRequestOptions,
   method: "POST" | "GET",
   endpoint: string,
   content?: object
 ) {
   const url = `${apiUrl}${endpoint}`
   const body = method === "POST" && content ? JSON.stringify(content) : null
+  const fetchFunctionOrPromise = passedFetchFunction || defaultFetch
   const fetchFunction = await fetchFunctionOrPromise
 
   if (!fetchFunction) {

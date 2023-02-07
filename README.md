@@ -54,33 +54,63 @@ Then you can check `result.status` to see if it's `"starting"`, `"processing"` o
 can get the outputs with `result.outputs`. If not you can check back later with `getPrediction` and the id from result
 (`result.id`).
 
-You can also use `pollPrediction` to poll until the prediction is done.
+You can also set `poll: true` in the options of `predict` to wait until it has finished. If you dont do that, you can
+still use `.poll()` to poll until the prediction is done.
 
-### Retrieve the result of a prediction
+### Wait until a prediction is finished
 
 ```typescript
-const result = await getPrediction({ id, token: "..." })
+// If you have a PredictionStatusObject:
+const finishedPrediction = prediction.poll()
+
+// If you only have the prediction ID:
+const finishedPrediction = await pollPrediction({ id, token: "..." })
+
+// If you are creating a new prediction anyways:
+const finishedPrediction = await predict({ ...otherOptions, poll: true })
+```
+
+### Retrieve the current state of a prediction
+
+```typescript
+// If you have a PredictionStatusObject:
+const currentPrediction = prediction.get()
+
+// If you only have the prediction ID:
+const currentPrediction = await getPrediction({ id, token: "..." })
 ```
 
 ### Cancel a running prediction
 
 ```typescript
-await cancelPrediction({ id, token: "..." })
+// If you have a PredictionStatusObject:
+const currentPrediction = result.cancel()
+
+// If you only have the prediction ID:
+const currentPrediction = await cancelPrediction({ id, token: "..." })
 ```
+
+Cancelling the prediction also returns the state of the prediction after cancelling.
 
 ### Get information about a model
 
 ```typescript
-await getModel({ id, token: "..." })
+const info = await getModel({ model: "replicate/hello-world", token: "..." })
 ```
 
-### Generate an image with stable-diffusion
+### Get a list of all versions of a model
+
+```typescript
+const info = await getVersions({ model: "replicate/hello-world", token: "..." })
+```
+
+### Generate a prediction without using the convenience functions
 
 The first example used a few convenience functions to make it easier to use the API. You can also use the lower level
 functions that map the API calls more directly.
 
 ```typescript
-const model = await getModel({ id, token: "..." })
+const model = await getModel({ model: "stability-ai/stable-diffusion", token: "..." })
 
 let prediction = await predict({
   version: model.version,

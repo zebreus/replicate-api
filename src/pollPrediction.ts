@@ -11,7 +11,14 @@ export type PollPredictionOptions = {
   timeout?: number
 } & ReplicateRequestOptions
 
-/** Poll until the prediction has completed */
+/** Poll a prediction by ID.
+ *
+ * If you have a `PredictionStatusObject`, you don't have to use this function, just call `.poll()` on that object.
+ *
+ *  If the timeout occurs an error is thrown.
+ *
+ * @returns A new `PredictionStatusObject`. It has a status of either "succeeded", "failed" or "canceled".
+ */
 export const pollPrediction = async (options: PollPredictionOptions, initialResult?: PredictionStatusObject) => {
   let newPrediction = initialResult || (await getPrediction({ ...options, id: options.id }))
 

@@ -1,9 +1,8 @@
 import { extractModelAndOwner } from "helpers/extractModelAndOwner"
 import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
+import { ModelNameOptions } from "predict"
 
-export type ResolveModelOptions = {
-  model: string
-} & ReplicateRequestOptions
+export type ResolveModelOptions = ModelNameOptions & ReplicateRequestOptions
 
 export type ModelVersionResponse = {
   id: string
@@ -24,6 +23,7 @@ type ModelResponse = {
   latest_version: ModelVersionResponse
 }
 
+/** Get information about a model */
 export const getModel = async (options: ResolveModelOptions) => {
   const { owner, model } = extractModelAndOwner(options.model)
   const response = await makeApiRequest<ModelResponse>(options, "GET", `models/${owner}/${model}`)

@@ -1,10 +1,10 @@
 import { ModelVersionResponse } from "getModel"
 import { extractModelAndOwner } from "helpers/extractModelAndOwner"
 import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
+import { ModelNameOptions } from "predict"
 
-export type ResolveModelVersionsOptions = {
-  model: string
-} & ReplicateRequestOptions
+/** Options for `getVersions` */
+export type GetVersionsOptions = ModelNameOptions & ReplicateRequestOptions
 
 type ModelVersionsResponse = {
   previous: null | string
@@ -12,7 +12,8 @@ type ModelVersionsResponse = {
   results: Array<ModelVersionResponse>
 }
 
-export const getVersions = async (options: ResolveModelVersionsOptions) => {
+/** Get a list of all versions that are availabe for a model */
+export const getVersions = async (options: GetVersionsOptions) => {
   const { owner, model } = extractModelAndOwner(options.model)
   const response = await makeApiRequest<ModelVersionsResponse>(options, "GET", `models/${owner}/${model}/versions`)
 
