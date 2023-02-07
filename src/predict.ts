@@ -28,7 +28,12 @@ export type PredictOptions = {
 /** Create a new prediction
  *
  * ```typescript
- * const result = await predict({ model: "replicate/hello-world", input: { prompt: "..." }, token: "..." })
+ * const result = await predict({
+ *   model: "stability-ai/stable-diffusion",
+ *   input: { prompt: "multicolor hyperspace" },
+ *   token: "Get your token at https://replicate.com/account",
+ *   poll: true,
+ * })
  * ```
  *
  * Then you can check `result.status` to see if it's `"starting"`, `"processing"` or `succeeded`. If it's `"succeeded"` you can get the outputs with `result.outputs`. If not you can check back later with `getPrediction` and the id from result (`result.id`).

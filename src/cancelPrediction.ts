@@ -7,7 +7,12 @@ export type CancelPredictionOptions = {
 } & ReplicateRequestOptions
 
 /** Cancel a running prediction.
- *
+ * ```typescript
+ * const result = await cancelPrediction({
+ *   id: "ID of your prediction",
+ *   token: "Get your token at https://replicate.com/account"
+ * })
+ * ```
  * If you have a `PredictionStatusObject`, you don't have to use this function, just call `.cancel()` on that object.
  *
  * @returns A `PredictionStatusObject` representing the new state.

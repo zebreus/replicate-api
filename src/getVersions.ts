@@ -12,7 +12,14 @@ type ModelVersionsResponse = {
   results: Array<ModelVersionResponse>
 }
 
-/** Get a list of all versions that are availabe for a model */
+/** Get a list of all versions that are availabe for a model
+ * ```typescript
+ * const {versions, version} = await getVersions({
+ *   model: "stability-ai/stable-diffusion",
+ *   token: "Get your token at https://replicate.com/account"
+ * })
+ * ```
+ */
 export const getVersions = async (options: GetVersionsOptions) => {
   const { owner, model } = extractModelAndOwner(options.model)
   const response = await makeApiRequest<ModelVersionsResponse>(options, "GET", `models/${owner}/${model}/versions`)

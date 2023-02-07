@@ -13,6 +13,12 @@ export type PollPredictionOptions = {
 
 /** Poll a prediction by ID.
  *
+ * ```typescript
+ * const result = await pollPrediction({
+ *   id: "ID of your prediction",
+ *   token: "Get your token at https://replicate.com/account"
+ * })
+ * ```
  * If you have a `PredictionStatusObject`, you don't have to use this function, just call `.poll()` on that object.
  *
  *  If the timeout occurs an error is thrown.

@@ -23,7 +23,16 @@ type ModelResponse = {
   latest_version: ModelVersionResponse
 }
 
-/** Get information about a model */
+/** Get information about a model
+ * ```typescript
+ * const model = await getModel({
+ *   model: "stability-ai/stable-diffusion",
+ *   token: "Get your token at https://replicate.com/account"
+ * })
+ *
+ * const version = model.version
+ * ```
+ */
 export const getModel = async (options: ResolveModelOptions) => {
   const { owner, model } = extractModelAndOwner(options.model)
   const response = await makeApiRequest<ModelResponse>(options, "GET", `models/${owner}/${model}`)
