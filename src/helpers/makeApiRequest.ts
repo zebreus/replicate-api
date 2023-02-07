@@ -5,7 +5,7 @@ export type FetchFunction = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) => Promise<{ json: () => Promise<any>; ok: boolean; status: number }>
 
-export type Options = {
+export type ReplicateRequestOptions = {
   fetch?: FetchFunction | Promise<FetchFunction | undefined>
   token: string
   apiUrl?: string
@@ -23,7 +23,11 @@ const defaultFetch: FetchFunction | undefined | Promise<FetchFunction | undefine
     : undefined
 
 export async function makeApiRequest<ExpectedResponse = unknown>(
-  { fetch: fetchFunctionOrPromise = defaultFetch, token, apiUrl = "https://api.replicate.com/v1/" }: Options,
+  {
+    fetch: fetchFunctionOrPromise = defaultFetch,
+    token,
+    apiUrl = "https://api.replicate.com/v1/",
+  }: ReplicateRequestOptions,
   method: "POST" | "GET",
   endpoint: string,
   content?: object

@@ -1,10 +1,10 @@
 import { convertPrediction, PredictionResponse } from "helpers/convertPrediction"
-import { Options } from "helpers/makeApiRequest"
+import { ReplicateRequestOptions } from "helpers/makeApiRequest"
 
 export type ProcessWebhookOptions = {
   /** The webhook body as an object */
   body: unknown
-} & Options
+} & ReplicateRequestOptions
 
 export const processWebhook = (options: ProcessWebhookOptions) => {
   const { body } = options

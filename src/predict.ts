@@ -1,6 +1,6 @@
 import { getModel } from "getModel"
 import { convertPrediction, PredictionResponse } from "helpers/convertPrediction"
-import { makeApiRequest, Options } from "helpers/makeApiRequest"
+import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
 
 export type ModelIdentifier =
   | {
@@ -20,7 +20,7 @@ export type PredictOptions = {
   /** Set to true to poll until the prediction is completed */
   poll?: boolean
 } & ModelIdentifier &
-  Options
+  ReplicateRequestOptions
 
 export const predict = async (options: PredictOptions) => {
   const version = "version" in options ? options.version : (await getModel(options)).version

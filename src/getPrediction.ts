@@ -1,10 +1,10 @@
 import { convertPrediction, PredictionResponse } from "helpers/convertPrediction"
-import { makeApiRequest, Options } from "helpers/makeApiRequest"
+import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
 
 export type GetPredictionOptions = {
   /** The id of a prediction */
   id: string
-} & Options
+} & ReplicateRequestOptions
 
 export const getPrediction = async (options: GetPredictionOptions) => {
   const response = await makeApiRequest<PredictionResponse>(options, "GET", `predictions/${options.id}`)

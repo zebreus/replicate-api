@@ -1,10 +1,10 @@
 import { ModelVersionResponse } from "getModel"
 import { extractModelAndOwner } from "helpers/extractModelAndOwner"
-import { makeApiRequest, Options } from "helpers/makeApiRequest"
+import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
 
 export type ResolveModelVersionsOptions = {
   model: string
-} & Options
+} & ReplicateRequestOptions
 
 type ModelVersionsResponse = {
   previous: null | string

@@ -1,6 +1,6 @@
 import { cancelPrediction } from "cancelPrediction"
 import { getPrediction } from "getPrediction"
-import { Options } from "helpers/makeApiRequest"
+import { ReplicateRequestOptions } from "helpers/makeApiRequest"
 import { pollPrediction } from "pollPrediction"
 
 export type PredictionStatus = "starting" | "processing" | "succeeded" | "failed" | "canceled"
@@ -48,7 +48,10 @@ export type PredictionStatusObject = {
   }
 }
 
-export const convertPrediction = (options: Options, prediction: PredictionResponse): PredictionStatusObject => {
+export const convertPrediction = (
+  options: ReplicateRequestOptions,
+  prediction: PredictionResponse
+): PredictionStatusObject => {
   const predictionStatus: PredictionStatusObject = {
     id: prediction.id,
     version: prediction.version,

@@ -1,6 +1,6 @@
 import { getPrediction } from "getPrediction"
 import { PredictionStatusObject } from "helpers/convertPrediction"
-import { Options } from "helpers/makeApiRequest"
+import { ReplicateRequestOptions } from "helpers/makeApiRequest"
 
 export type PollPredictionOptions = {
   /** The id of a prediction */
@@ -9,7 +9,7 @@ export type PollPredictionOptions = {
    * @default 3600000
    */
   timeout?: number
-} & Options
+} & ReplicateRequestOptions
 
 /** Poll until the prediction has completed */
 export const pollPrediction = async (options: PollPredictionOptions, initialResult?: PredictionStatusObject) => {
