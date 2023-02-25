@@ -128,6 +128,22 @@ console.log(prediction.outputs[0])
 // https://replicate.com/api/models/stability-ai/stable-diffusion/files/58a1dcfc-3d5d-4297-bac2-5395294fe463/out-0.png
 ```
 
+### List your past predictions
+
+```typescript
+const result = await listPredictions({
+  token: "...",
+})
+```
+
+Returns up to 100 predictions. To get more, use the `next` function:
+
+```typescript
+const moreResults = await result.next()
+```
+
+You can also set `all: true` to get all predictions.
+
 ## Related projects
 
 - [replicate-js](https://github.com/nicholascelestin/replicate-js) - A js object-oriented client for replicate

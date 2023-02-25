@@ -11,6 +11,16 @@ export type PollPredictionOptions = {
   timeout?: number
 } & ReplicateRequestOptions
 
+const getSleepDuration = (elapsedTimeMillis: number) => {
+  if (elapsedTimeMillis < 10000) {
+    return 1000
+  }
+  if (elapsedTimeMillis < 60000) {
+    return 5000
+  }
+  return 10000
+}
+
 /** Poll a prediction by ID.
  *
  * ```typescript
@@ -40,7 +50,7 @@ export const pollPrediction = async (options: PollPredictionOptions, initialResu
     }
 
     const elapsedTime = newPrediction.started_at ? Date.now() - newPrediction.started_at.getTime() : 0
-    const sleepDuration = elapsedTime < 10000 ? 1000 : elapsedTime < 60000 ? 5000 : 10000
+    const sleepDuration = getSleepDuration(elapsedTime)
     if (newPrediction !== initialResult) {
       await new Promise(resolve => setTimeout(resolve, sleepDuration))
     }

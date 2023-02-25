@@ -3,6 +3,7 @@ import { log } from "console"
 import { getModel } from "getModel"
 import { getPrediction } from "getPrediction"
 import { getVersions } from "getVersions"
+import { listPredictions } from "listPredictions"
 import { pollPrediction } from "pollPrediction"
 import { predict } from "predict"
 import { token } from "tests/token"
@@ -134,4 +135,23 @@ test("Resolving model versions works", async () => {
   expect(prediction.versions.map(version => version.id)).toContain(
     "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef"
   )
+})
+
+// These tests require a token that has more than 200 past predictions
+test("Listing past predictions return 100 results", async () => {
+  const { predictions } = await listPredictions({ token })
+  expect(predictions.length).toBe(100)
+})
+
+test("Listing all past predictions returns a lot of results", async () => {
+  const { predictions: allPastPredictions } = await listPredictions({ token, all: true })
+  expect(allPastPredictions.length).toBeGreaterThan(200)
+}, 120000)
+
+test("Listing the next predictions returns different results than the first call", async () => {
+  const { predictions, next } = await listPredictions({ token })
+  expect(predictions.length).toBe(100)
+  const { predictions: nextPredictions } = await next()
+  expect(nextPredictions.length).toBe(100)
+  expect(nextPredictions[0]?.id).not.toBe(predictions[0]?.id)
 })
