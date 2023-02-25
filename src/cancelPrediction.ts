@@ -13,9 +13,9 @@ export type CancelPredictionOptions = {
  *   token: "Get your token at https://replicate.com/account"
  * })
  * ```
- * If you have a `PredictionStatusObject`, you don't have to use this function, just call `.cancel()` on that object.
+ * If you have a `PredictionState`, you don't have to use this function, just call `.cancel()` on that object.
  *
- * @returns A `PredictionStatusObject` representing the new state.
+ * @returns A `PredictionState` representing the new state.
  */
 export const cancelPrediction = async (options: CancelPredictionOptions) => {
   await makeApiRequest(options, "POST", `predictions/${options.id}/cancel`)

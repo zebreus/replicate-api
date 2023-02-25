@@ -1,6 +1,6 @@
 import { cancelPrediction } from "cancelPrediction"
 import { getPrediction } from "getPrediction"
-import { PredictionResponse, PredictionStatusObject } from "helpers/convertPrediction"
+import { PredictionResponse, PredictionState } from "helpers/convertPrediction"
 import { ReplicateRequestOptions } from "helpers/makeApiRequest"
 import { pollPrediction } from "pollPrediction"
 
@@ -12,10 +12,10 @@ export type ShallowPredictionResponse = Pick<
 
 /** Status of a prediction without the actual results
  *
- * You can use `.get()` to get the full `PredictionStatusObject`.
+ * You can use `.get()` to get the full `PredictionState`.
  */
-export type ShallowPredictionStatus = Pick<
-  PredictionStatusObject,
+export type ShallowPredictionState = Pick<
+  PredictionState,
   "id" | "version" | "createdAt" | "startedAt" | "completedAt" | "status" | "get" | "cancel" | "poll"
 >
 
@@ -26,8 +26,8 @@ export type ShallowPredictionStatus = Pick<
 export const convertShallowPrediction = (
   options: ReplicateRequestOptions,
   prediction: ShallowPredictionResponse
-): ShallowPredictionStatus => {
-  const predictionStatus: ShallowPredictionStatus = {
+): ShallowPredictionState => {
+  const PredictionState: ShallowPredictionState = {
     id: prediction.id,
     version: prediction.version,
     get: async () => await getPrediction({ ...options, id: prediction.id }),
@@ -39,5 +39,5 @@ export const convertShallowPrediction = (
     status: prediction.status,
   }
 
-  return predictionStatus
+  return PredictionState
 }

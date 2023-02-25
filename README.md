@@ -60,7 +60,7 @@ still use `.poll()` to poll until the prediction is done.
 ### Wait until a prediction is finished
 
 ```typescript
-// If you have a PredictionStatusObject:
+// If you have a PredictionState:
 const finishedPrediction = prediction.poll()
 
 // If you only have the prediction ID:
@@ -73,7 +73,7 @@ const finishedPrediction = await predict({ ...otherOptions, poll: true })
 ### Retrieve the current state of a prediction
 
 ```typescript
-// If you have a PredictionStatusObject:
+// If you have a PredictionState:
 const currentPrediction = prediction.get()
 
 // If you only have the prediction ID:
@@ -83,7 +83,7 @@ const currentPrediction = await getPrediction({ id, token: "..." })
 ### Cancel a running prediction
 
 ```typescript
-// If you have a PredictionStatusObject:
+// If you have a PredictionState:
 const currentPrediction = result.cancel()
 
 // If you only have the prediction ID:

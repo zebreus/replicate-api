@@ -6,9 +6,9 @@ export type ProcessWebhookOptions = {
   body: unknown
 } & ReplicateRequestOptions
 
-/** Convert the body of a replicate callback to a `PredictionStatusObject`.
+/** Convert the body of a replicate callback to a `PredictionState`.
  *
- * When creating a prediction you can set a URL that will be called by replicate once the prediction is completed. This function can take the body of that request and converts it to a `PredictionStatusObject`.
+ * When creating a prediction you can set a URL that will be called by replicate once the prediction is completed. This function can take the body of that request and converts it to a `PredictionState`.
  */
 export const processWebhook = (options: ProcessWebhookOptions) => {
   const { body } = options

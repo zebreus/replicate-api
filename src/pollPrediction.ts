@@ -1,5 +1,5 @@
 import { getPrediction } from "getPrediction"
-import { PredictionStatusObject } from "helpers/convertPrediction"
+import { PredictionState } from "helpers/convertPrediction"
 import { ReplicateRequestOptions } from "helpers/makeApiRequest"
 
 export type PollPredictionOptions = {
@@ -29,13 +29,13 @@ const getSleepDuration = (elapsedTimeMillis: number) => {
  *   token: "Get your token at https://replicate.com/account"
  * })
  * ```
- * If you have a `PredictionStatusObject`, you don't have to use this function, just call `.poll()` on that object.
+ * If you have a `PredictionState`, you don't have to use this function, just call `.poll()` on that object.
  *
  *  If the timeout occurs an error is thrown.
  *
- * @returns A new `PredictionStatusObject`. It has a status of either "succeeded", "failed" or "canceled".
+ * @returns A new `PredictionState`. It has a status of either "succeeded", "failed" or "canceled".
  */
-export const pollPrediction = async (options: PollPredictionOptions, initialResult?: PredictionStatusObject) => {
+export const pollPrediction = async (options: PollPredictionOptions, initialResult?: PredictionState) => {
   let newPrediction = initialResult || (await getPrediction({ ...options, id: options.id }))
 
   const endAt = Date.now() + (options.timeout ?? 3600000)

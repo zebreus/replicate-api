@@ -6,7 +6,7 @@ export type GetPredictionOptions = {
   id: string
 } & ReplicateRequestOptions
 
-/** Get the `PredictionStatusObject` for a given ID.
+/** Get the `PredictionState` for a given ID.
  *
  * ```typescript
  * const result = await getPrediction({
@@ -15,7 +15,7 @@ export type GetPredictionOptions = {
  * })
  * ```
  *
- * @returns A new `PredictionStatusObject`.
+ * @returns A new `PredictionState`.
  */
 export const getPrediction = async (options: GetPredictionOptions) => {
   const response = await makeApiRequest<PredictionResponse>(options, "GET", `predictions/${options.id}`)

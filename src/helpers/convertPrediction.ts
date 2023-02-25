@@ -30,29 +30,29 @@ export type PredictionResponse = {
  *
  * The status is not automatically updated. You can use the `.get()` function on this object to get a new object with the current state on `replicate.com`. You can use `.poll()` to wait for the prediction to finish.
  */
-export type PredictionStatusObject = {
+export type PredictionState = {
   /** The id of this prediction */
   id: string
   /** The version of the model used to generate this prediction */
   version: string
   /** Get the updated state of this prediction from replicate
    *
-   * @returns A new `PredictionStatusObject` representing the current state.
+   * @returns A new `PredictionState` representing the current state.
    */
-  get: () => Promise<PredictionStatusObject>
+  get: () => Promise<PredictionState>
   /** Cancel a running prediction.
    *
-   * @returns A new `PredictionStatusObject` representing the updated state.
+   * @returns A new `PredictionState` representing the updated state.
    */
-  cancel: () => Promise<PredictionStatusObject>
+  cancel: () => Promise<PredictionState>
   /** Poll until the prediction is completed or failed
    *
    *  If the timeout occurs an error is thrown.
    *
    * @param timeout The timeout in milliseconds
-   * @returns The `PredictionStatusObject` for the finished prediction. It has a status of either "succeeded", "failed" or "canceled".
+   * @returns The `PredictionState` for the finished prediction. It has a status of either "succeeded", "failed" or "canceled".
    */
-  poll: (timeout?: number) => Promise<PredictionStatusObject>
+  poll: (timeout?: number) => Promise<PredictionState>
   /** When the prediction was created */
   createdAt?: Date
   /** When execution of the prediction was started */
@@ -82,13 +82,13 @@ export type PredictionStatusObject = {
 export const convertPrediction = (
   options: ReplicateRequestOptions,
   prediction: PredictionResponse
-): PredictionStatusObject => {
-  const predictionStatus: PredictionStatusObject = {
+): PredictionState => {
+  const PredictionState: PredictionState = {
     id: prediction.id,
     version: prediction.version,
     get: async () => await getPrediction({ ...options, id: prediction.id }),
     cancel: async () => await cancelPrediction({ ...options, id: prediction.id }),
-    poll: async timeout => await pollPrediction({ ...options, id: prediction.id, timeout: timeout }, predictionStatus),
+    poll: async timeout => await pollPrediction({ ...options, id: prediction.id, timeout: timeout }, PredictionState),
     createdAt: prediction.created_at ? new Date(prediction.created_at) : undefined,
     startedAt: prediction.started_at ? new Date(prediction.started_at) : undefined,
     completedAt: prediction.completed_at ? new Date(prediction.completed_at) : undefined,
@@ -102,5 +102,5 @@ export const convertPrediction = (
     },
   }
 
-  return predictionStatus
+  return PredictionState
 }

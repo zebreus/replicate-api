@@ -1,7 +1,7 @@
 import {
   convertShallowPrediction,
   ShallowPredictionResponse,
-  ShallowPredictionStatus,
+  ShallowPredictionState,
 } from "helpers/convertShallowPrediction"
 import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
 
@@ -21,7 +21,7 @@ type ListPredictionsResponse = {
 
 export type ListOfPredictions = {
   /** Up to 100 predictions */
-  predictions: ShallowPredictionStatus[]
+  predictions: ShallowPredictionState[]
   /** Get the next predictions */
   next: () => Promise<ListOfPredictions>
   /** Cursor to get the next predictions manually */
@@ -46,7 +46,7 @@ const getEmptyResult = async (): Promise<ListOfPredictions> => ({
  * const moreResults = await result.next()
  * ```
  *
- * @returns A new `ShallowPredictionStatus`.
+ * @returns A new `ShallowPredictionState`.
  */
 export const listPredictions = async (options: ListPredictionsOptions): Promise<ListOfPredictions> => {
   const response = await makeApiRequest<ListPredictionsResponse>(
