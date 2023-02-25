@@ -14,14 +14,23 @@ export type ModelVersionOptions = {
   version: string
 }
 
+export type WebhookEventTypes = "start" | "complete" | "logs" | "completed"
+
 /** Options for creating a new prediction */
 export type PredictOptions = {
   /** The model's input as a JSON object. This differs for each model */
   input: Record<string, unknown>
-  /** A webhook that is called when the prediction has completed. */
-  webhook?: string
   /** Set to true to poll until the prediction is completed */
   poll?: boolean
+  /** A webhook that is called when the prediction has completed. */
+  webhook?: string
+  /** Select which events trigger webhook request
+   *
+   * See https://replicate.com/docs/reference/http#create-prediction--webhook_events_filter for more information.
+   *
+   * @default ["completed"]
+   */
+  webhookEvents?: ("start" | "complete" | "logs" | "completed")[]
 } & (ModelVersionOptions | ModelNameOptions) &
   ReplicateRequestOptions
 
@@ -46,6 +55,7 @@ export const predict = async (options: PredictOptions) => {
     version: version,
     input: options.input,
     webhook_completed: options.webhook,
+    webhook_events_filter: options.webhook ? options.webhookEvents || ["completed"] : undefined,
   })
 
   const prediction = convertPrediction(options, response)
