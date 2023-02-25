@@ -5,13 +5,15 @@ import {
 } from "helpers/convertShallowPrediction"
 import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
 
-export type ListPredictionsOptions = {
+export type PagedRequestOptions = {
   // TODO: Maybe replace with a maxResults option?
-  /** Set to true to get all predictions */
+  /** Set to true to get all results */
   all?: boolean
-  /** The cursor to the previous predictions */
+  /** Request data at this location. You should probably use the `.next()` method instead */
   cursor?: string
-} & ReplicateRequestOptions
+}
+
+export type ListPredictionsOptions = PagedRequestOptions & ReplicateRequestOptions
 
 type ListPredictionsResponse = {
   previous?: string
@@ -24,7 +26,7 @@ export type ListOfPredictions = {
   predictions: ShallowPredictionState[]
   /** Get the next predictions */
   next: () => Promise<ListOfPredictions>
-  /** Cursor to get the next predictions manually */
+  /** Cursor to get the next predictions manually. You should probably use the `.next()` method instead */
   nextCursor?: string
 }
 
@@ -59,7 +61,8 @@ export const listPredictions = async (options: ListPredictionsOptions): Promise<
   const nextCursor = response.next?.split("cursor=").pop()
   const result = {
     predictions: predictions,
-    next: () => (nextCursor ? listPredictions({ ...options, cursor: nextCursor }) : getEmptyResult()),
+    next: () =>
+      predictions.length && nextCursor ? listPredictions({ ...options, cursor: nextCursor }) : getEmptyResult(),
     ...(nextCursor ? { nextCursor } : {}),
   }
 
