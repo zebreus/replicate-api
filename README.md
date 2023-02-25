@@ -101,7 +101,7 @@ const info = await getModel({ model: "replicate/hello-world", token: "..." })
 ### Get a list of all versions of a model
 
 ```typescript
-const info = await getVersions({ model: "replicate/hello-world", token: "..." })
+const info = await listVersions({ model: "replicate/hello-world", token: "..." })
 ```
 
 ### Generate a prediction without using the convenience functions

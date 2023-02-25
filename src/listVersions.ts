@@ -4,8 +4,8 @@ import { makeApiRequest, ReplicateRequestOptions } from "helpers/makeApiRequest"
 import { PagedRequestOptions } from "listPredictions"
 import { ModelNameOptions } from "predict"
 
-/** Options for `getVersions` */
-export type GetVersionsOptions = PagedRequestOptions & ModelNameOptions & ReplicateRequestOptions
+/** Options for `listVersions` */
+export type ListVersionsOptions = PagedRequestOptions & ModelNameOptions & ReplicateRequestOptions
 
 type ModelVersionsResponse = {
   previous?: string
@@ -37,15 +37,15 @@ const getEmptyResult = async (): Promise<ListOfVersions> => ({
   next: () => getEmptyResult(),
 })
 
-/** Get a list of all versions that are availabe for a model
+/** List all versions that are availabe for a model
  * ```typescript
- * const {versions, version} = await getVersions({
+ * const {versions, version} = await listVersions({
  *   model: "stability-ai/stable-diffusion",
  *   token: "Get your token at https://replicate.com/account"
  * })
  * ```
  */
-export const getVersions = async (options: GetVersionsOptions): Promise<ListOfVersions> => {
+export const listVersions = async (options: ListVersionsOptions): Promise<ListOfVersions> => {
   const { owner, model } = extractModelAndOwner(options.model)
   const response = await makeApiRequest<ModelVersionsResponse>(
     options,
@@ -63,7 +63,7 @@ export const getVersions = async (options: GetVersionsOptions): Promise<ListOfVe
   const result = {
     version: versions[0]?.id,
     versions: versions,
-    next: () => (versions.length && nextCursor ? getVersions({ ...options, cursor: nextCursor }) : getEmptyResult()),
+    next: () => (versions.length && nextCursor ? listVersions({ ...options, cursor: nextCursor }) : getEmptyResult()),
     ...(nextCursor ? { nextCursor } : {}),
   }
 

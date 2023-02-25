@@ -2,8 +2,8 @@ import { cancelPrediction } from "cancelPrediction"
 import { log } from "console"
 import { getModel } from "getModel"
 import { getPrediction } from "getPrediction"
-import { getVersions } from "getVersions"
 import { listPredictions } from "listPredictions"
+import { listVersions } from "listVersions"
 import { pollPrediction } from "pollPrediction"
 import { predict } from "predict"
 import { token } from "tests/token"
@@ -128,7 +128,7 @@ test("Resolving a model works", async () => {
 })
 
 test("Resolving model versions works", async () => {
-  const prediction = await getVersions({
+  const prediction = await listVersions({
     model: "stability-ai/stable-diffusion",
     token,
   })
