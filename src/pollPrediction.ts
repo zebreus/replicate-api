@@ -49,7 +49,7 @@ export const pollPrediction = async (options: PollPredictionOptions, initialResu
       return newPrediction
     }
 
-    const elapsedTime = newPrediction.started_at ? Date.now() - newPrediction.started_at.getTime() : 0
+    const elapsedTime = newPrediction.startedAt ? Date.now() - newPrediction.startedAt.getTime() : 0
     const sleepDuration = getSleepDuration(elapsedTime)
     if (newPrediction !== initialResult) {
       await new Promise(resolve => setTimeout(resolve, sleepDuration))

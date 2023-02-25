@@ -31,8 +31,8 @@ export const getVersions = async (options: GetVersionsOptions) => {
     version: response.results?.[0]?.id,
     versions: response.results?.map(version => ({
       id: version.id,
-      created_at: new Date(version.created_at),
-      cog_version: version.cog_version,
+      createdAt: new Date(version.created_at),
+      cogVersion: version.cog_version,
       schema: version.openapi_schema,
     })),
   }

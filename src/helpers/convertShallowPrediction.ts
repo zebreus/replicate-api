@@ -16,7 +16,7 @@ export type ShallowPredictionResponse = Pick<
  */
 export type ShallowPredictionStatus = Pick<
   PredictionStatusObject,
-  "id" | "version" | "created_at" | "started_at" | "completed_at" | "status" | "get" | "cancel" | "poll"
+  "id" | "version" | "createdAt" | "startedAt" | "completedAt" | "status" | "get" | "cancel" | "poll"
 >
 
 /** Convert prediction list entries from replicate to a more idiomatic TypeScript object.
@@ -33,9 +33,9 @@ export const convertShallowPrediction = (
     get: async () => await getPrediction({ ...options, id: prediction.id }),
     cancel: async () => await cancelPrediction({ ...options, id: prediction.id }),
     poll: async timeout => await pollPrediction({ ...options, id: prediction.id, timeout: timeout }),
-    created_at: prediction.created_at ? new Date(prediction.created_at) : undefined,
-    started_at: prediction.started_at ? new Date(prediction.started_at) : undefined,
-    completed_at: prediction.completed_at ? new Date(prediction.completed_at) : undefined,
+    createdAt: prediction.created_at ? new Date(prediction.created_at) : undefined,
+    startedAt: prediction.started_at ? new Date(prediction.started_at) : undefined,
+    completedAt: prediction.completed_at ? new Date(prediction.completed_at) : undefined,
     status: prediction.status,
   }
 

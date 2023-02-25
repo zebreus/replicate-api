@@ -54,11 +54,11 @@ export type PredictionStatusObject = {
    */
   poll: (timeout?: number) => Promise<PredictionStatusObject>
   /** When the prediction was created */
-  created_at?: Date
+  createdAt?: Date
   /** When execution of the prediction was started */
-  started_at?: Date
+  startedAt?: Date
   /** When execution of the prediction was completed (or cancelled) */
-  completed_at?: Date
+  completedAt?: Date
   /** The status of the prediction */
   status: PredictionStatus
   /** The input parameters */
@@ -70,7 +70,8 @@ export type PredictionStatusObject = {
   logs?: string
   /** Metrics about the prediction */
   metrics: {
-    predict_time?: number
+    /** In seconds */
+    predictTime?: number
   }
 }
 
@@ -88,16 +89,16 @@ export const convertPrediction = (
     get: async () => await getPrediction({ ...options, id: prediction.id }),
     cancel: async () => await cancelPrediction({ ...options, id: prediction.id }),
     poll: async timeout => await pollPrediction({ ...options, id: prediction.id, timeout: timeout }, predictionStatus),
-    created_at: prediction.created_at ? new Date(prediction.created_at) : undefined,
-    started_at: prediction.started_at ? new Date(prediction.started_at) : undefined,
-    completed_at: prediction.completed_at ? new Date(prediction.completed_at) : undefined,
+    createdAt: prediction.created_at ? new Date(prediction.created_at) : undefined,
+    startedAt: prediction.started_at ? new Date(prediction.started_at) : undefined,
+    completedAt: prediction.completed_at ? new Date(prediction.completed_at) : undefined,
     status: prediction.status,
     input: prediction.input,
     output: prediction.output,
     error: prediction.error,
     logs: prediction.logs ?? undefined,
     metrics: {
-      predict_time: prediction.metrics?.predict_time,
+      predictTime: prediction.metrics?.predict_time,
     },
   }
 
