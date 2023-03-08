@@ -2,6 +2,7 @@ import { cancelPrediction } from "cancelPrediction"
 import { log } from "console"
 import { getModel } from "getModel"
 import { getPrediction } from "getPrediction"
+import { loadFile } from "helpers/loadFile"
 import { listPredictions } from "listPredictions"
 import { listVersions } from "listVersions"
 import { pollPrediction } from "pollPrediction"
@@ -155,3 +156,25 @@ test("Listing the next predictions returns different results than the first call
   expect(nextPredictions.length).toBe(100)
   expect(nextPredictions[0]?.id).not.toBe(predictions[0]?.id)
 })
+
+test("Using a model with a file input works", async () => {
+  const prediction = predict({
+    model: "openai/whisper",
+    token,
+    input: {
+      audio: await loadFile("./testaudio.mp3"),
+      model: "base",
+    },
+    poll: true,
+  })
+  const result = await prediction
+  const { transcription } = (result?.output ?? {}) as { transcription?: unknown }
+  expect(transcription).toBeTruthy()
+  if (typeof transcription !== "string") {
+    throw new Error("Transcription is not a string")
+  }
+
+  expect(transcription).toContain(
+    "This is the Cal NEH American English Dialect Recordings Collection, produced with funding from the National Endowment for the Humanities and the Center for Applied Linguistics"
+  )
+}, 240000)

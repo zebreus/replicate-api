@@ -37,7 +37,7 @@ const prediction = await predict({
   poll: true, // Wait for the model to finish
 })
 
-console.log(prediction.outputs[0])
+console.log(prediction.output[0])
 // https://replicate.com/api/models/stability-ai/stable-diffusion/files/58a1dcfc-3d5d-4297-bac2-5395294fe463/out-0.png
 ```
 
@@ -143,6 +143,39 @@ const moreResults = await result.next()
 ```
 
 You can also set `all: true` to get all predictions.
+
+### Use files in your inputs
+
+To use file inputs you need to pass them as URLs. You can use the `loadFile` function to convert local files to base64
+data URLs:
+
+```typescript
+const testaudioURL = await loadFile("./testaudio.mp3")
+//
+```
+
+You can also use an HTTPS URL to load files from the web.
+
+### Transcribe audio with whisper
+
+You can create a new prediction for the [`openai/whisper`](https://replicate.com/openai/whisper) model and wait for the
+result with:
+
+```typescript
+const prediction = await predict({
+  model: "openai/whisper", // The model name
+  input: {
+    audio: await loadFile("./testaudio.mp3"), // Load local file as base64 dataurl
+    // audio: "https://raw.githubusercontent.com/zebreus/replicate-api/master/testaudio.mp3", // Load from a URL
+    model: "base",
+  }, // The model specific input
+  token: "...", // You need a token from replicate.com
+  poll: true, // Wait for the model to finish
+})
+
+console.log(prediction.output.transcription)
+// Transcribed text
+```
 
 ## Related projects
 
