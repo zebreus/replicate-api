@@ -7,7 +7,7 @@ export const loadFile = async (path: string) => {
   return `data:${mimeType};base64,${content}`
 }
 
-const guessMimeType = (path: string) => {
+export const guessMimeType = (path: string) => {
   const extension = path.split(".").pop()
   const mimeTypesByExtension = {
     "aac": "audio/aac",
