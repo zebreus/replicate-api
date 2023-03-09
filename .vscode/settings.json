@@ -35,8 +35,6 @@
   "jest.nodeEnv": {
     "NODE_OPTIONS": "--experimental-vm-modules"
   },
-  "jest.autoRun": {
-    "enabled": false,
-    "watch": false
-  }
+  "jest.autoRun": "off",
+  "jest.showCoverageOnLoad": false
 }
