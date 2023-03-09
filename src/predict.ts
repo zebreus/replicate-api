@@ -61,7 +61,7 @@ export const predict = async (options: PredictOptions) => {
   const response = await makeApiRequest<PredictionResponse>(options, "POST", "predictions", {
     version: version,
     input: options.input,
-    webhook_completed: options.webhook,
+    webhook: options.webhook,
     webhook_events_filter: options.webhook ? options.webhookEvents || ["completed"] : undefined,
   })
 

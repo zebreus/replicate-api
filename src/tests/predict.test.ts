@@ -178,3 +178,32 @@ test("Using a model with a file input works", async () => {
     "This is the Cal NEH American English Dialect Recordings Collection, produced with funding from the National Endowment for the Humanities and the Center for Applied Linguistics"
   )
 }, 240000)
+
+test("Calling predict with a webhook does not fail", async () => {
+  const prediction = predict({
+    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
+    token,
+    input: {
+      prompt: "The quick brown fox jumps over the lazy dog",
+    },
+    webhook: "https://google.com",
+  })
+  await expect(prediction).resolves.toBeTruthy()
+  const awaitedPrediction = await prediction
+  await expect(awaitedPrediction.cancel()).resolves.toBeTruthy()
+})
+
+test("Calling predict with a webhook and events does not fail", async () => {
+  const prediction = predict({
+    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
+    token,
+    input: {
+      prompt: "The quick brown fox jumps over the lazy dog",
+    },
+    webhook: "https://google.com",
+    webhookEvents: ["completed", "start"],
+  })
+  await expect(prediction).resolves.toBeTruthy()
+  const awaitedPrediction = await prediction
+  await expect(awaitedPrediction.cancel()).resolves.toBeTruthy()
+})
